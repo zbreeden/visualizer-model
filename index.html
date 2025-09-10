@@ -1,1 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Visualizer • FourTwenty Analytics</title>
+  <meta name="description" content="Static face for The Visualizer: README renderer, WIP trackers, and build metrics." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🖼️</text></svg>">
+  <!-- TailwindCSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Marked.js for Markdown rendering -->
+  <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- (Optional) GTM: replace with your container ID when ready -->
+  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WVC4SNLB');</script> -->
+  <style>
+    /* Smooth cards + subtle grid lines */
+    .glass { backdrop-filter: blur(6px); }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <!-- GTM (noscript) placeholder -->
+  <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WVC4SNLB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
 
+  <header class="sticky top-0 z-10 border-b border-slate-800 bg-slate-950/80 glass">
+    <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="https://zbreeden.github.io/FourTwentyAnalytics/" class="inline-flex items-center gap-2 rounded-2xl border border-slate-700 px-3 py-1.5 text-sm hover:bg-slate-800 transition">
+          <span>← Back to Hub</span>
+        </a>
+        <h1 class="text-xl font-semibold tracking-tight">The Visualizer <span class="text-slate-400">· static face</span></h1>
+      </div>
+      <nav class="flex items-center gap-2 text-sm">
+        <a href="#readme" class="hover:underline">README</a>
+        <a href="#wips" class="hover:underline">WIPs</a>
+        <a href="#metrics" class="hover:underline">Metrics</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-6 grid gap-8">
+
+    <!-- KPIs / Build Metrics -->
+    <section id="metrics" class="grid gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="text-xs uppercase text-slate-400">Active WIPs</div>
+          <div id="kpi-active" class="mt-1 text-3xl font-bold">—</div>
+        </div>
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="text-xs uppercase text-slate-400">Avg Days to Complete</div>
+          <div id="kpi-avg-days" class="mt-1 text-3xl font-bold">—</div>
+        </div>
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="text-xs uppercase text-slate-400">Total Defects / Teardowns</div>
+          <div id="kpi-defects" class="mt-1 text-3xl font-bold">—</div>
+        </div>
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="text-xs uppercase text-slate-400">Cycle Time (Last Completed)</div>
+          <div id="kpi-last-cycle" class="mt-1 text-3xl font-bold">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- README Renderer -->
+    <section id="readme" class="grid gap-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">README</h2>
+        <div class="text-sm text-slate-400">Auto-renders <code>./README.md</code> (falls back to a link)</div>
+      </div>
+      <div id="readme-content" class="prose prose-invert max-w-none rounded-2xl border border-slate-800 bg-slate-900 p-5"></div>
+      <div class="text-sm text-slate-400">
+        If rendering fails (cross-origin or not found), open the README directly:
+        <a href="./README.md" class="underline">Open README.md</a>
+      </div>
+    </section>
+
+    <!-- Visualization Scrolls / WIPs -->
+    <section id="wips" class="grid gap-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Visualization Scrolls (WIPs)</h2>
+        <button id="btn-new" class="rounded-xl border border-slate-700 px-3 py-1.5 text-sm hover:bg-slate-800">+ New WIP</button>
+      </div>
+
+      <!-- WIP List -->
+      <div id="wip-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+      <!-- New/Edit Modal -->
+      <dialog id="modal" class="rounded-2xl border border-slate-700 bg-slate-900 p-0 text-slate-100 w-[min(560px,92vw)]">
+        <form id="wip-form" method="dialog">
+          <div class="border-b border-slate-800 px-5 py-3 flex items-center justify-between">
+            <h3 id="modal-title" class="font-semibold">New WIP</h3>
+            <button type="button" class="rounded-lg px-2 py-1 text-slate-300 hover:bg-slate-800" onclick="closeModal()">✕</button>
+          </div>
+          <div class="p-5 grid gap-3">
+            <div class="grid gap-1">
+              <label class="text-sm text-slate-300">Title</label>
+              <input id="f-title" class="rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" required />
+            </div>
+            <div class="grid gap-1">
+              <label class="text-sm text-slate-300">Dataset / Source</label>
+              <input id="f-source" class="rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" placeholder="e.g., Spotify Top 200" />
+            </div>
+            <div class="grid gap-1">
+              <label class="text-sm text-slate-300">Stage</label>
+              <select id="f-stage" class="rounded-xl bg-slate-800 border border-slate-700 px-3 py-2">
+                <option>concept</option>
+                <option>wip</option>
+                <option>polishing</option>
+                <option>completed</option>
+              </select>
+            </div>
+            <div class="grid gap-1">
+              <label class="text-sm text-slate-300">Links (comma-separated)</label>
+              <input id="f-links" class="rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" placeholder="README anchor, Tableau public, PBIX gist" />
+            </div>
+            <div class="grid gap-1 md:grid-cols-2 md:gap-4">
+              <div>
+                <label class="text-sm text-slate-300">Started</label>
+                <input id="f-started" type="date" class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" />
+              </div>
+              <div>
+                <label class="text-sm text-slate-300">Completed</label>
+                <input id="f-completed" type="date" class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" />
+              </div>
+            </div>
+            <div class="grid gap-1 md:grid-cols-2 md:gap-4">
+              <div>
+                <label class="text-sm text-slate-300">Defects / Teardowns</label>
+                <input id="f-defects" type="number" min="0" value="0" class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" />
+              </div>
+              <div>
+                <label class="text-sm text-slate-300">Tag</label>
+                <input id="f-tag" class="w-full rounded-xl bg-slate-800 border border-slate-700 px-3 py-2" placeholder="tableau, powerbi, excel, python, sql" />
+              </div>
+            </div>
+          </div>
+          <div class="border-t border-slate-800 p-4 flex items-center justify-end gap-2">
+            <button type="button" class="rounded-xl border border-slate-700 px-3 py-1.5 text-sm hover:bg-slate-800" onclick="closeModal()">Cancel</button>
+            <button id="btn-save" class="rounded-xl bg-indigo-500 px-3 py-1.5 text-sm font-semibold hover:bg-indigo-400">Save</button>
+          </div>
+        </form>
+      </dialog>
+    </section>
+
+    <!-- Helpful Links -->
+    <section class="grid gap-2">
+      <h2 class="text-lg font-semibold">Helpful Links</h2>
+      <div class="grid gap-2 md:grid-cols-2">
+        <a class="rounded-2xl border border-slate-800 bg-slate-900 p-4 hover:bg-slate-800 transition" href="./data/orbit/core/visualizer/datasets.md">Creative datasets catalog →</a>
+        <a class="rounded-2xl border border-slate-800 bg-slate-900 p-4 hover:bg-slate-800 transition" href="./data/orbits/core_system/fourtwentyanalytics/datasets.md">Barycenter datasets (Core System) →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mx-auto max-w-6xl px-4 py-8 text-sm text-slate-400">
+    Built for The Visualizer · FourTwenty Analytics. Local-only WIP data is saved in your browser storage.
+  </footer>
+
+  <script>
+  // ---------- README RENDER ----------
+  async function renderReadme() {
+    const el = document.getElementById('readme-content');
+    try {
+      const res = await fetch('./README.md', {cache: 'no-store'});
+      if (!res.ok) throw new Error('README not found');
+      const md = await res.text();
+      el.innerHTML = marked.parse(md);
+    } catch (err) {
+      el.innerHTML = `<div class="text-sm text-slate-300">README not rendered automatically. <a class="underline" href="./README.md">Open README.md</a></div>`;
+    }
+  }
+
+  // ---------- WIP STORE (localStorage) ----------
+  const STORE_KEY = 'visualizer_wips_v1';
+  function loadStore() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch { return []; } }
+  function saveStore(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+
+  // Seed examples if empty
+  function seedIfEmpty() {
+    const data = loadStore();
+    if (data.length) return;
+    const today = new Date().toISOString().slice(0,10);
+    saveStore([
+      { id: crypto.randomUUID(), title: 'Spotify Genre Race', source: 'Spotify Top 200', stage: 'wip', links: ['#'], started: today, completed: '', defects: 1, tag: 'tableau' },
+      { id: crypto.randomUUID(), title: 'Airbnb Density Map', source: 'Inside Airbnb (Cincy)', stage: 'concept', links: [], started: today, completed: '', defects: 0, tag: 'powerbi' }
+    ]);
+  }
+
+  // ---------- WIP UI ----------
+  let editingId = null;
+  function openModal(item) {
+    document.getElementById('modal').showModal();
+    document.getElementById('modal-title').textContent = item ? 'Edit WIP' : 'New WIP';
+    editingId = item?.id || null;
+    document.getElementById('f-title').value = item?.title || '';
+    document.getElementById('f-source').value = item?.source || '';
+    document.getElementById('f-stage').value = item?.stage || 'concept';
+    document.getElementById('f-links').value = (item?.links||[]).join(', ');
+    document.getElementById('f-started').value = item?.started || '';
+    document.getElementById('f-completed').value = item?.completed || '';
+    document.getElementById('f-defects').value = item?.defects ?? 0;
+    document.getElementById('f-tag').value = item?.tag || '';
+  }
+  function closeModal(){ document.getElementById('modal').close(); }
+
+  function renderList(){
+    const list = document.getElementById('wip-list');
+    const data = loadStore();
+    list.innerHTML = '';
+    for (const item of data) {
+      const days = cycleDays(item.started, item.completed);
+      const badge = stageBadge(item.stage);
+      const links = (item.links||[]).map(l=>`<a class="underline" href="${l}">link</a>`).join(' · ');
+      const card = document.createElement('div');
+      card.className = 'rounded-2xl border border-slate-800 bg-slate-900 p-4 flex flex-col gap-3';
+      card.innerHTML = `
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <div class="text-base font-semibold">${escapeHtml(item.title)}</div>
+            <div class="text-sm text-slate-400">${escapeHtml(item.source || '')}</div>
+          </div>
+          <span class="inline-flex items-center rounded-full border border-slate-700 px-2 py-0.5 text-xs">${badge}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          <div class="rounded-xl bg-slate-800/60 p-2"><div class="text-slate-400">Started</div><div>${fmtDate(item.started)}</div></div>
+          <div class="rounded-xl bg-slate-800/60 p-2"><div class="text-slate-400">Completed</div><div>${fmtDate(item.completed)}</div></div>
+          <div class="rounded-xl bg-slate-800/60 p-2"><div class="text-slate-400">Cycle (days)</div><div>${days ?? '—'}</div></div>
+          <div class="rounded-xl bg-slate-800/60 p-2"><div class="text-slate-400">Defects</div><div>${item.defects ?? 0}</div></div>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <div class="text-slate-300">${links || ''}</div>
+          <div class="flex items-center gap-2">
+            <button class="rounded-lg border border-slate-700 px-2 py-1 hover:bg-slate-800" onclick='incrementDefect("${item.id}")'>+ defect</button>
+            <button class="rounded-lg border border-slate-700 px-2 py-1 hover:bg-slate-800" onclick='openModal(${JSON.stringify(item)})'>Edit</button>
+            <button class="rounded-lg border border-rose-700 text-rose-300 px-2 py-1 hover:bg-rose-900/40" onclick='removeWip("${item.id}")'>Delete</button>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    }
+    renderKPIs();
+  }
+
+  // ---------- KPI CALCS ----------
+  function renderKPIs(){
+    const data = loadStore();
+    const active = data.filter(d=>d.stage!=='completed').length;
+    const completed = data.filter(d=>d.stage==='completed' && d.completed);
+    const avgDays = completed.length ? (completed.reduce((s,d)=>s+(cycleDays(d.started,d.completed)||0),0)/completed.length).toFixed(1) : '—';
+    const defects = data.reduce((s,d)=>s+(Number(d.defects)||0),0);
+    const last = completed.sort((a,b)=>new Date(b.completed)-new Date(a.completed))[0];
+    const lastCycle = last ? (cycleDays(last.started,last.completed)||0) : '—';
+
+    document.getElementById('kpi-active').textContent = active;
+    document.getElementById('kpi-avg-days').textContent = avgDays;
+    document.getElementById('kpi-defects').textContent = defects;
+    document.getElementById('kpi-last-cycle').textContent = lastCycle;
+  }
+
+  function cycleDays(start, end){
+    if (!start || !end) return null;
+    const ms = (new Date(end)) - (new Date(start));
+    return Math.max(0, Math.round(ms/86400000));
+  }
+  function fmtDate(s){ return s ? new Date(s+'T00:00:00').toLocaleDateString() : '—'; }
+  function stageBadge(stage){
+    const map = { concept: 'Concept', wip: 'In Progress', polishing: 'Polishing', completed: 'Completed' };
+    return map[stage]||stage;
+  }
+  function escapeHtml(str){ return (str||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  // ---------- Mutations ----------
+  function removeWip(id){ const data=loadStore().filter(x=>x.id!==id); saveStore(data); renderList(); }
+  function incrementDefect(id){ const data=loadStore(); const it=data.find(x=>x.id===id); if(it){ it.defects=(Number(it.defects)||0)+1; saveStore(data); renderList(); } }
+
+  document.getElementById('btn-new').addEventListener('click',()=>openModal());
+  document.getElementById('wip-form').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const payload = {
+      id: editingId || crypto.randomUUID(),
+      title: document.getElementById('f-title').value.trim(),
+      source: document.getElementById('f-source').value.trim(),
+      stage: document.getElementById('f-stage').value,
+      links: document.getElementById('f-links').value.split(',').map(s=>s.trim()).filter(Boolean),
+      started: document.getElementById('f-started').value,
+      completed: document.getElementById('f-completed').value,
+      defects: Number(document.getElementById('f-defects').value||0),
+      tag: document.getElementById('f-tag').value.trim()
+    };
+    const data = loadStore();
+    const ix = data.findIndex(x=>x.id===payload.id);
+    if (ix>=0) data[ix]=payload; else data.push(payload);
+    saveStore(data);
+    closeModal();
+    renderList();
+  });
+
+  // ---------- Init ----------
+  seedIfEmpty();
+  renderReadme();
+  renderList();
+  </script>
+</body>
+</html>
