@@ -2,6 +2,6 @@
 - Purpose:  open source datasets for use across the constellation
 
 ##  Scaffolding
-/data/-->
-data.readme.md
-orbits/
+/data/ -->
+- data.readme.md
+- orbits/
