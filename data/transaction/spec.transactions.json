@@ -1,0 +1,60 @@
+{
+  "output": "/mnt/data/data/transaction/transactions.csv",
+  "rows": 10000,
+  "seed": 99,
+  "columns": {
+    "transaction_id": {
+      "type": "uuid"
+    },
+    "customer_id": {
+      "type": "fk",
+      "source": "/mnt/data/data/customer/customers.csv",
+      "column": "customer_id"
+    },
+    "transaction_dt": {
+      "type": "datetime",
+      "start": "2024-01-01",
+      "end": "2025-09-13",
+      "fmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "amount": {
+      "type": "float",
+      "dist": "gamma",
+      "shape": 2.0,
+      "scale": 30.0,
+      "round": 2
+    },
+    "payment_method": {
+      "type": "choice",
+      "values": [
+        "Credit Card",
+        "Debit Card",
+        "ACH",
+        "Cash"
+      ],
+      "weights": [
+        0.62,
+        0.18,
+        0.15,
+        0.05
+      ]
+    },
+    "status": {
+      "type": "choice",
+      "values": [
+        "Settled",
+        "Pending",
+        "Declined"
+      ],
+      "weights": [
+        0.9,
+        0.08,
+        0.02
+      ]
+    },
+    "notes": {
+      "type": "lorem",
+      "words": 8
+    }
+  }
+}

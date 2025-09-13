@@ -1,0 +1,60 @@
+{
+  "output": "/mnt/data/data/customer/customers.csv",
+  "rows": 2000,
+  "seed": 42,
+  "columns": {
+    "customer_id": {
+      "type": "uuid"
+    },
+    "first_name": {
+      "type": "first_name"
+    },
+    "last_name": {
+      "type": "last_name"
+    },
+    "email": {
+      "type": "email",
+      "domain": "fourtwenty-analytics.dev"
+    },
+    "city": {
+      "type": "choice",
+      "values": [
+        "Cincinnati",
+        "Dayton",
+        "Columbus",
+        "Cleveland"
+      ],
+      "weights": [
+        0.55,
+        0.15,
+        0.2,
+        0.1
+      ]
+    },
+    "state": {
+      "type": "state"
+    },
+    "zip": {
+      "type": "zip"
+    },
+    "signup_date": {
+      "type": "date",
+      "start": "2023-01-01",
+      "end": "2025-09-13",
+      "fmt": "%Y-%m-%d"
+    },
+    "is_active": {
+      "type": "bool",
+      "p": 0.82
+    },
+    "age": {
+      "type": "int",
+      "min": 18,
+      "max": 84
+    },
+    "full_name": {
+      "type": "derive",
+      "template": "{first_name} {last_name}"
+    }
+  }
+}

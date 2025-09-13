@@ -1,0 +1,49 @@
+{
+  "output": "/mnt/data/data/finance/invoices.csv",
+  "rows": 9000,
+  "seed": 2718,
+  "columns": {
+    "invoice_id": {
+      "type": "uuid"
+    },
+    "customer_id": {
+      "type": "fk",
+      "source": "/mnt/data/data/customer/customers.csv",
+      "column": "customer_id"
+    },
+    "invoice_dt": {
+      "type": "date",
+      "start": "2024-01-01",
+      "end": "2025-09-13",
+      "fmt": "%Y-%m-%d"
+    },
+    "due_dt": {
+      "type": "date",
+      "start": "2024-01-15",
+      "end": "2025-10-15",
+      "fmt": "%Y-%m-%d"
+    },
+    "amount_usd": {
+      "type": "float",
+      "dist": "gamma",
+      "shape": 2.5,
+      "scale": 80.0,
+      "round": 2
+    },
+    "status": {
+      "type": "choice",
+      "values": [
+        "Open",
+        "Paid",
+        "Late",
+        "Disputed"
+      ],
+      "weights": [
+        0.25,
+        0.6,
+        0.12,
+        0.03
+      ]
+    }
+  }
+}

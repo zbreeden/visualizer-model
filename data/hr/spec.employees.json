@@ -1,0 +1,68 @@
+{
+  "output": "/mnt/data/data/hr/employees.csv",
+  "rows": 1200,
+  "seed": 818,
+  "columns": {
+    "employee_id": {
+      "type": "uuid"
+    },
+    "first_name": {
+      "type": "first_name"
+    },
+    "last_name": {
+      "type": "last_name"
+    },
+    "dept": {
+      "type": "choice",
+      "values": [
+        "Operations",
+        "Sales",
+        "Finance",
+        "HR",
+        "Engineering",
+        "Support"
+      ]
+    },
+    "role": {
+      "type": "choice",
+      "values": [
+        "Analyst",
+        "Manager",
+        "Director",
+        "Technician",
+        "Engineer",
+        "Coordinator"
+      ]
+    },
+    "hire_dt": {
+      "type": "date",
+      "start": "2015-01-01",
+      "end": "2025-09-13",
+      "fmt": "%Y-%m-%d"
+    },
+    "salary_usd": {
+      "type": "float",
+      "dist": "lognormal",
+      "mean": 11.0,
+      "sigma": 0.35,
+      "round": 0
+    },
+    "status": {
+      "type": "choice",
+      "values": [
+        "Active",
+        "On Leave",
+        "Terminated"
+      ],
+      "weights": [
+        0.9,
+        0.06,
+        0.04
+      ]
+    },
+    "full_name": {
+      "type": "derive",
+      "template": "{first_name} {last_name}"
+    }
+  }
+}

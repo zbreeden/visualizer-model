@@ -1,0 +1,66 @@
+{
+  "output": "/mnt/data/data/manufacturing/work_orders.csv",
+  "rows": 5000,
+  "seed": 777,
+  "columns": {
+    "order_id": {
+      "type": "uuid"
+    },
+    "product_id": {
+      "type": "choice",
+      "values": [
+        "P-100",
+        "P-200",
+        "P-300",
+        "P-400",
+        "P-500"
+      ]
+    },
+    "plant": {
+      "type": "choice",
+      "values": [
+        "Cincinnati",
+        "Dayton",
+        "Louisville"
+      ]
+    },
+    "start_dt": {
+      "type": "datetime",
+      "start": "2025-01-01",
+      "end": "2025-09-13",
+      "fmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "end_dt": {
+      "type": "datetime",
+      "start": "2025-01-01",
+      "end": "2025-09-30",
+      "fmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "quantity": {
+      "type": "int",
+      "min": 100,
+      "max": 5000
+    },
+    "scrap_pct": {
+      "type": "float",
+      "min": 0,
+      "max": 0.1,
+      "round": 3
+    },
+    "status": {
+      "type": "choice",
+      "values": [
+        "Planned",
+        "In Progress",
+        "Completed",
+        "Scrapped"
+      ],
+      "weights": [
+        0.1,
+        0.25,
+        0.6,
+        0.05
+      ]
+    }
+  }
+}

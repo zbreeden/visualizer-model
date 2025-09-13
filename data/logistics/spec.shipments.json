@@ -1,0 +1,67 @@
+{
+  "output": "/mnt/data/data/logistics/shipments.csv",
+  "rows": 7000,
+  "seed": 1414,
+  "columns": {
+    "shipment_id": {
+      "type": "uuid"
+    },
+    "origin": {
+      "type": "choice",
+      "values": [
+        "Cincinnati",
+        "Dayton",
+        "Columbus",
+        "Cleveland",
+        "Louisville"
+      ]
+    },
+    "destination": {
+      "type": "choice",
+      "values": [
+        "Chicago",
+        "Detroit",
+        "Pittsburgh",
+        "Nashville",
+        "St. Louis"
+      ]
+    },
+    "carrier": {
+      "type": "choice",
+      "values": [
+        "UPS",
+        "FedEx",
+        "DHL",
+        "XPO",
+        "R+L"
+      ]
+    },
+    "depart_dt": {
+      "type": "datetime",
+      "start": "2024-10-01",
+      "end": "2025-09-13",
+      "fmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "arrive_dt": {
+      "type": "datetime",
+      "start": "2024-10-02",
+      "end": "2025-09-20",
+      "fmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "status": {
+      "type": "choice",
+      "values": [
+        "In Transit",
+        "Delivered",
+        "Delayed",
+        "Exception"
+      ],
+      "weights": [
+        0.22,
+        0.66,
+        0.1,
+        0.02
+      ]
+    }
+  }
+}
