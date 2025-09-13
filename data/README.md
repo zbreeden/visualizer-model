@@ -71,7 +71,7 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
 
 ---
 
-## 🚀 Example KPIs
+# 🚀 Example KPIs
 - **Customer**: Active customers over time, avg. age, city distribution.
 - **Transaction**: Revenue per month, payment method share, failure rates.
 - **Survey**: NPS, satisfaction breakdown, top features.
@@ -83,7 +83,7 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
 
 ---
 
-## 📌 This chamber is the living data seedbed for The Visualizer
+# 📌 This chamber is the living data seedbed for The Visualizer
 - a ready-made library of internal datasets that can power dashboards, storytelling, and simulations across the constellation.
 - a repository for other modules to create their own datasets.
 - a repository used for improving the suitekeeper's data visualization skills using systems such as Tableau and Power BI.
