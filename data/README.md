@@ -67,7 +67,7 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
   - Run:
     ```bash
     python3 data/synth_data.py --spec data/<domain>/spec.<name>.json
-  - Commit both the spec and the generated .csv.
+  - Commit both the spec and the generated CSV.
 
 ---
 
