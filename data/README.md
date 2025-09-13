@@ -64,7 +64,7 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
 - **To add new scrolls**:
   - Create a subfolder under data/ (e.g., data/erp/).
   - Write a spec.<table>.json describing the schema.
-  - Run:
+- **Run**:
     ```bash
     python3 data/synth_data.py --spec data/<domain>/spec.<name>.json
 - **Use the resulting datafile to run any module**.
