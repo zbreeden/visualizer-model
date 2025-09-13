@@ -14,6 +14,8 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
 - **Spec Format:** JSON (YAML supported if PyYAML is installed)
 - **Supported column types**: uuid, int, float, bool, choice, multichoice, date, datetime, first_name, last_name, city, state, zip, email, lorem, poisson, likert5, likert7, fk, derive.
 
+---
+
 ## 📂 Scrolls (Domains)
 - **👥 Customer**
   - Spec: customer/spec.customers.json
@@ -56,6 +58,8 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
   - Fields: Shipments with origin, destination, carrier, timing, status.
   - Use Case: Supply chain dashboards, on-time delivery KPIs.
 
+---
+
 ## 🌱 Extending the Library
 - **To add new scrolls**:
   - Create a subfolder under data/ (e.g., data/erp/).
@@ -64,6 +68,8 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
     ```bash
     python3 data/synth_data.py --spec data/<domain>/spec.<name>.json
   - Commit both the spec and the generated .csv.
+
+---
 
 ## 🚀 Example KPIs
 - **Customer**: Active customers over time, avg. age, city distribution.
@@ -74,6 +80,8 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
 - **HR**: Headcount by department, salary distribution, attrition rate.
 - **Finance**: Invoice aging buckets, DSO (Days Sales Outstanding).
 - **Logistics**: On-time delivery %, carrier performance, route volumes.
+
+---
 
 ## 📌 This chamber is the living data seedbed for The Visualizer:
 - a ready-made library of internal datasets that can power dashboards, storytelling, and simulations across the constellation.
