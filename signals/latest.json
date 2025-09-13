@@ -1,4 +1,32 @@
-{
+[
+  {
+  "id": "2025-09-13T14:00:00Z-visualizer-dataset-seeding",
+  "ts_utc": "2025-09-13T14:00:00Z",
+  "date": "2025-09-13",
+  "module": "The Visualizer",
+  "repo": "visualizer-model",
+  "title": "Dataset Seeding System Created in The Visualizer",
+  "summary": "The Visualizer has established a data chamber with a synthesizer and seed library, enabling creation of realistic fictionalized datasets across multiple domains (customer, transaction, survey, manufacturing, safety, HR, finance, logistics); this system underpins demo dashboards and simulations across the constellation.",
+  "tags": ["data", "synthesis", "visualizer", "critical"],
+  "rating": "critical",
+  "origin": {
+    "name": "The Visualizer",
+    "url": "https://zbreeden.github.io/visualizer-model/",
+    "emoji": "🎨"
+  },
+  "links": {
+    "readme": "https://github.com/zbreeden/visualizer-model#readme",
+    "page": "https://zbreeden.github.io/visualizer-model/",
+    "data": "https://github.com/zbreeden/visualizer-model/tree/main/signals",
+    "runbook": "https://github.com/zbreeden/visualizer-model/blob/main/RUNBOOK.md" 
+  },
+  "payload": {
+    "datasets": ["customer/customers.csv", "transaction/transactions.csv", "survey/survey.csv", "manufacturing/work_orders.csv", "manufacturing/maintenance_logs.csv", "safety/incidents.csv", "hr/employees.csv", "finance/invoices.csv", "logistics/shipments.csv"],
+    "generator": "data/synth_data.py",
+    "note": "This is the inaugural dataset factory for the constellation."
+  "version": "1.0.0"
+  },
+  {
   "id": "2025-09-10T20:00:00Z-visualizer-broadcast-seed",
   "ts_utc": "2025-09-10T20:00:00Z",
   "date": "2025-09-10",
@@ -24,4 +52,5 @@
   },
   "checksum": "",
   "version": "1.0.0"
-}
+  }
+]
