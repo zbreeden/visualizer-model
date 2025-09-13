@@ -83,7 +83,7 @@ This chamber houses the **`synth_data.py`** generator and a growing scroll of da
 
 ---
 
-## 📌 This chamber is the living data seedbed for The Visualizer:
+## 📌 This chamber is the living data seedbed for The Visualizer
 - a ready-made library of internal datasets that can power dashboards, storytelling, and simulations across the constellation.
 - a repository for other modules to create their own datasets.
 - a repository used for improving the suitekeeper's data visualization skills using systems such as Tableau and Power BI.
